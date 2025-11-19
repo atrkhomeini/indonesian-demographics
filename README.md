@@ -20,6 +20,19 @@ A data science project that analyzes Indonesian demographic trends (TFR, ASFR, e
 
 ## 🚀 Quick Start
 
+### 🛠️ Tech Stack
+
+| Category          | Technologies |
+|-------------------|--------------|
+| **Core Language** | [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/) |
+| **Database**      | [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-13+-316192.svg)](https://www.postgresql.org/) |
+| **Data Science**  | [![Pandas](https://img.shields.io/badge/Pandas-1.5+-150458.svg)](https://pandas.pydata.org/) [![NumPy](https://img.shields.io/badge/NumPy-1.24+-013243.svg)](https://numpy.org/) [![Scikit-learn](https://img.shields.io/badge/scikit--learn-1.3+-F7931E.svg)](https://scikit-learn.org/) [![Statsmodels](https://img.shields.io/badge/Statsmodels-0.14+-8A2BE2.svg)](https://www.statsmodels.org/) |
+| **Visualization** | [![Matplotlib](https://img.shields.io/badge/Matplotlib-3.7+-11557c.svg)](https://matplotlib.org/) [![Seaborn](https://img.shields.io/badge/Seaborn-0.12+-882255.svg)](https://seaborn.pydata.org/) [![Plotly](https://img.shields.io/badge/Plotly-5.14+-3F4F75.svg)](https://plotly.com/) |
+| **Development**   | [![Git](https://img.shields.io/badge/Git-2.34+-F05032.svg)](https://git-scm.com/) [![Jupyter](https://img.shields.io/badge/Jupyter-1.0+-F37626.svg)](https://jupyter.org/) [![VSCode](https://img.shields.io/badge/VSCode-1.85+-007ACC.svg)](https://code.visualstudio.com/) |
+| **Code Quality**  | [![Black](https://img.shields.io/badge/Black-23.3+-000000.svg)](https://github.com/psf/black) [![Flake8](https://img.shields.io/badge/Flake8-6.0+-2076B2.svg)](https://flake8.pycqa.org/) [![Mypy](https://img.shields.io/badge/Mypy-1.3+-124A58.svg)](http://mypy-lang.org/) |
+| **Dashboard**     | [![Streamlit](https://img.shields.io/badge/Streamlit-1.25+-FF4B4B.svg)](https://streamlit.io/) |
+
+
 ### Prerequisites
 
 ```bash
