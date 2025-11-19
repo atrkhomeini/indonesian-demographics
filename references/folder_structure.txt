@@ -1,46 +1,58 @@
-├── LICENSE
-├── Makefile           <- Makefile with commands like `make data` or `make train`
-├── README.md          <- The top-level README for developers using this project.
+├── .gitignore
+├── README.md
+├── requirements.txt
+├── setup.py
 ├── data
 │   ├── external       <- Data from third party sources.
 │   ├── interim        <- Intermediate data that has been transformed.
 │   ├── processed      <- The final, canonical data sets for modeling.
 │   └── raw            <- The original, immutable data dump.
-│        ├── ASFR
-│        ├── Pengeluaran
-|        ├── TFR
 ├── docs               <- A default Sphinx project; see sphinx-doc.org for details
-│
+│   └── .gitkeep
 ├── models             <- Trained and serialized models, model predictions, or model summaries
-│
-├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
-│                         the creator's initials, and a short `-` delimited description, e.g.
-│                         `1.0-jqp-initial-data-exploration`.
-│
-├── references         <- Data dictionaries, manuals, and all other explanatory materials.
-│
-├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
-│   └── figures        <- Generated graphics and figures to be used in reporting
-│
-├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
-│                         generated with `pip freeze > requirements.txt`
-│
-├── setup.py           <- Make this project pip installable with `pip install -e`
+├── notebooks
+│   ├── .gitkeep
+│   └── phase3.py
+├── references
+│   └── folder_structure.txt
+├── reports
+│   └── figures
+│       └── .gitkeep
 ├── src                <- Source code for use in this project.
 │   ├── __init__.py    <- Makes src a Python module
 │   │
+│   ├── analysis
+│   │   ├── __init__.py
+│   │   ├── .gitkeep
+│   │   ├── arima_forecaster.py
+│   │   ├── config_loader.py
+│   │   ├── forecast_expenditure.py
+│   │   ├── forecast_visualizer.py
+│   │   ├── quadrant_analysis.py
+│   │   ├── run_analysis.py
+│   │   └── visualize.py
+│   │
 │   ├── data           <- Scripts to download or generate data
+│   │   ├── __init__.py
+│   │   ├── .gitkeep
+│   │   ├── clean_data.py
+│   │   ├── fix_column.py
 │   │   └── make_dataset.py
 │   │
+│   ├── database
+│   │   ├── check_db.py
+│   │   ├── clear_table.py
+│   │   ├── config.py
+│   │   ├── load_data.py
+│   │   └── setup_db.py
+│   │
 │   ├── features       <- Scripts to turn raw data into features for modeling
+│   │   ├── __init__.py
+│   │   ├── .gitkeep
 │   │   └── build_features.py
 │   │
-│   ├── models         <- Scripts to train models and then use trained models to make
-│   │   │                 predictions
-│   │   ├── predict_model.py
-│   │   └── train_model.py
-│   │
-│   └── visualization  <- Scripts to create exploratory and results oriented visualizations
-│       └── visualize.py
-│
-└── tox.ini            <- tox file with settings for running tox; see tox.readthedocs.io
+│   └── models         <- Scripts to train models and then use trained models to make
+│       │                 predictions
+│       ├── __init__.py
+│       ├── .gitkeep
+│       └── config.yml
