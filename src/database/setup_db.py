@@ -8,7 +8,7 @@ from psycopg2 import sql
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 import sys
 
-from config import DB_CONFIG
+from .config import DB_CONFIG
 
 
 def create_database():

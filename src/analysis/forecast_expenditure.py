@@ -8,9 +8,9 @@ from pathlib import Path
 import sys
 
 # Import local modules
-from config_loader import Config
-from arima_forecaster import ARIMAForecaster, prepare_time_series, forecast_region
-from forecast_visualizer import ForecastVisualizer
+from .config_loader import Config
+from .arima_forecaster import ARIMAForecaster, prepare_time_series, forecast_region
+from .forecast_visualizer import ForecastVisualizer
 
 
 def load_data(data_dir: str = 'data/interim'):
