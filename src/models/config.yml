@@ -1,0 +1,66 @@
+# Phase 4: Forecasting Configuration
+# Indonesia Demographics Market Intelligence
+
+forecasting:
+  # Historical data range
+  historical_start_year: 2010
+  historical_end_year: 2025
+  
+  # Forecast horizon
+  forecast_to_year: 2030
+  forecast_horizon_years: 5
+  
+  # Prophet Configuration
+  prophet:
+    seasonality_mode: 'multiplicative'  # Better for economic data with % growth
+    yearly_seasonality: true
+    changepoint_prior_scale: 0.05  # Flexibility (0.001 rigid, 0.5 flexible)
+    seasonality_prior_scale: 10.0
+    interval_width: 0.95  # 95% confidence interval
+    mcmc_samples: 0  # Set to 300 for full uncertainty
+  
+  # Statsmodels ARIMA Configuration
+  statsmodels:
+    max_p: 3  # AR order
+    max_d: 2  # Differencing order
+    max_q: 3  # MA order
+    seasonal: false
+    information_criterion: 'aic'  # 'aic' or 'bic'
+  
+  # Validation
+  validation:
+    test_start_year: 2023
+    test_size_years: 2
+    cross_validation_folds: 3
+
+# Quadrant Analysis Configuration
+quadrant:
+  tfr_threshold_method: 'median'  # 'median', 'mean', or fixed value
+  expenditure_threshold_method: 'median'
+  
+  # Alternative: fixed thresholds
+  tfr_threshold_fixed: 2.1  # Replacement level
+  expenditure_threshold_fixed: 10000  # IDR thousands
+  
+  # Segmentation names
+  segments:
+    high_tfr_high_exp: 'Stars'
+    high_tfr_low_exp: 'Developing'
+    low_tfr_high_exp: 'Cash Cows'
+    low_tfr_low_exp: 'Saturated'
+
+# Output Configuration
+outputs:
+  save_plots: true
+  save_forecasts: true
+  save_models: true
+  
+  plot_format: 'png'
+  plot_dpi: 300
+  
+  # Top regions to analyze in detail
+  top_n_regions: 10
+  
+  # Report generation
+  generate_summary_report: true
+  generate_detailed_report: true
