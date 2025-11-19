@@ -31,6 +31,7 @@ A data science project that analyzes Indonesian demographic trends (TFR, ASFR, e
 | **Development**   | [![Git](https://img.shields.io/badge/Git-2.34+-F05032.svg)](https://git-scm.com/) [![Jupyter](https://img.shields.io/badge/Jupyter-1.0+-F37626.svg)](https://jupyter.org/) [![VSCode](https://img.shields.io/badge/VSCode-1.85+-007ACC.svg)](https://code.visualstudio.com/) |
 | **Code Quality**  | [![Black](https://img.shields.io/badge/Black-23.3+-000000.svg)](https://github.com/psf/black) [![Flake8](https://img.shields.io/badge/Flake8-6.0+-2076B2.svg)](https://flake8.pycqa.org/) [![Mypy](https://img.shields.io/badge/Mypy-1.3+-124A58.svg)](http://mypy-lang.org/) |
 | **Dashboard**     | [![Streamlit](https://img.shields.io/badge/Streamlit-1.25+-FF4B4B.svg)](https://streamlit.io/) |
+| **Deployment**    | [![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces-yellow)](https://huggingface.co/spaces) |
 
 
 ### Prerequisites
