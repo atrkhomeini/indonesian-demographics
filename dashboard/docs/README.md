@@ -1,12 +1,17 @@
-# 🇮🇩 Indonesia Demographics Dashboard
+# Indonesia Demographics Market Intelligence
 
-Interactive Streamlit dashboard for market intelligence and demographic analysis.
+[![Dashboard Preview](dashboard_preview.png)](https://huggingface.co/spaces/atrkhomeini/indonesia-demographic)
+[![Open in Spaces](https://huggingface.co/datasets/huggingface/badges/resolve/main/open-in-hf-spaces-md-dark.svg)](https://huggingface.co/spaces/atrkhomeini/indonesia-demographic)
+
+
+Interactive market intelligence dashboard analyzing Indonesian demographic trends.
+
 
 [![Streamlit](https://img.shields.io/badge/Streamlit-1.30+-FF4B4B.svg)](https://streamlit.io/)
 [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/)
 [![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces-yellow)](https://huggingface.co/spaces)
 
-## 📊 Features
+## Features
 
 ### 1. Executive Summary
 - High-level KPIs and metrics
@@ -37,7 +42,7 @@ Interactive Streamlit dashboard for market intelligence and demographic analysis
 - Download CSV files
 - Data statistics
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Local Development
 
@@ -64,7 +69,7 @@ docker build -t indonesia-demographics-dashboard .
 docker run -p 8501:8501 indonesia-demographics-dashboard
 ```
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 master/dashboard/
@@ -90,7 +95,7 @@ master/dashboard/
         └── tfr_clean.csv
 ```
 
-## 🎨 Dashboard Pages
+## Dashboard Pages
 
 ### Executive Summary
 Get a bird's-eye view of the market landscape with:
@@ -132,7 +137,7 @@ Access and download raw data:
 - View data statistics (rows, columns, memory)
 - Download CSV files for further analysis
 
-## 🔧 Configuration
+## Configuration
 
 ### Data Sources
 
@@ -165,7 +170,7 @@ Modify `.streamlit/config.toml` to adjust:
 - Server settings
 - UI behavior
 
-## 🌐 Deployment to Hugging Face Spaces
+## Deployment to Hugging Face Spaces
 
 ### Method 1: Via Web Interface
 
@@ -205,7 +210,7 @@ If using PostgreSQL or sensitive data, add these in Space settings:
 - `DB_USER`
 - `DB_PASSWORD`
 
-## 📊 Data Requirements
+## Data Requirements
 
 ### Minimum Data Files
 
@@ -230,7 +235,7 @@ For full functionality:
 
 If data files are missing, the dashboard will use generated sample data for demonstration purposes.
 
-## 🔍 Troubleshooting
+## Troubleshooting
 
 ### Data Loading Errors
 
@@ -260,7 +265,7 @@ If data files are missing, the dashboard will use generated sample data for demo
 3. Use data sampling for very large datasets
 4. Optimize visualizations (reduce points plotted)
 
-## 🎨 Customization Guide
+## Customization Guide
 
 ### Adding New Pages
 
@@ -312,7 +317,7 @@ self.colors = {
 }
 ```
 
-## 📈 Analytics & Monitoring
+## Analytics & Monitoring
 
 ### Usage Tracking
 
@@ -334,29 +339,20 @@ logger.info("Data loaded successfully")
 logger.error(f"Error loading data: {e}")
 ```
 
-## 🤝 Contributing
 
-To contribute to the dashboard:
-
-1. Fork the repository
-2. Create feature branch
-3. Make changes
-4. Test locally
-5. Submit pull request
-
-## 📝 License
+## License
 
 This dashboard is part of the Indonesia Demographics Market Intelligence project.
 See main project LICENSE for details.
 
-## 👤 Author
+## Author
 
 **Data Science Team**
 - Email: dkhomeini79@gmail.com
 - LinkedIn: [Ayat Tulloh RK](https://linkedin.com/in/ayat-tulloh-rk)
 - GitHub: [@atrkhomeini](https://github.com/atrkhomeini)
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - **Data**: Badan Pusat Statistik (BPS) Indonesia
 - **Framework**: Streamlit

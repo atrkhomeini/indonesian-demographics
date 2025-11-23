@@ -1,4 +1,4 @@
-# 🇮🇩 Indonesia Demographics - Market Intelligence
+# Indonesia Demographics - Market Intelligence
 
 > Transforming demographic data into actionable business insights
 
@@ -6,21 +6,21 @@
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-13+-316192.svg)](https://www.postgresql.org/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-## 📋 Overview
+## Overview
 
 A data science project that analyzes Indonesian demographic trends (TFR, ASFR, expenditure) to provide market intelligence for business decision-making. The project uses time series forecasting and quadrant analysis to identify high-potential markets.
 
 ### Key Features
 
-- 📊 **Time Series Forecasting**: ARIMA models for expenditure prediction (2010-2030)
-- 🎯 **Market Segmentation**: Quadrant analysis (Stars, Cash Cows, Developing, Saturated)
-- 🗺️ **Granular Analysis**: Kabupaten/Kota level insights (500+ regions)
-- 🗄️ **PostgreSQL Backend**: Structured data storage and efficient querying
-- 📈 **Professional Visualizations**: Publication-ready plots and charts
+-  **Time Series Forecasting**: ARIMA models for expenditure prediction (2010-2030)
+-  **Market Segmentation**: Quadrant analysis (Stars, Cash Cows, Developing, Saturated)
+-  **Granular Analysis**: Kabupaten/Kota level insights (500+ regions)
+-  **PostgreSQL Backend**: Structured data storage and efficient querying
+-  **Professional Visualizations**: Publication-ready plots and charts
 
-## 🚀 Quick Start
+## Quick Start
 
-### 🛠️ Tech Stack
+### Tech Stack
 
 | Category          | Technologies |
 |-------------------|--------------|
@@ -79,7 +79,7 @@ DB_USER=postgres
 DB_PASSWORD=your_password
 ```
 
-## 🎯 Usage
+## Usage
 
 ### Run Complete Pipeline
 
@@ -112,7 +112,7 @@ python main.py --skip-phase3
 3. Conducts quadrant analysis for market segmentation
 4. Creates visualizations and exports results
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 indonesia-demographics/
@@ -155,7 +155,7 @@ indonesia-demographics/
 └── notebooks/                  # Jupyter notebooks (exploration)
 ```
 
-## 📊 Data Sources
+## Data Sources
 
 All data sourced from **Badan Pusat Statistik (BPS)**:
 
@@ -170,7 +170,7 @@ All data sourced from **Badan Pusat Statistik (BPS)**:
 - [TFR Data](https://www.bps.go.id/id/statistics-table?subject=519&global-keyword=TFR)
 - [ASFR Data](https://www.bps.go.id/id/statistics-table?subject=519&global-keyword=asfr)
 
-## 🎯 Analysis Methods
+## Analysis Methods
 
 ### Quadrant Analysis
 
@@ -190,7 +190,7 @@ Segments regions into 4 categories based on TFR (market volume) and expenditure 
 - **Validation**: Stationarity tests, residual diagnostics
 - **Output**: 5-year forecast with 95% confidence intervals
 
-## 📈 Outputs
+## Outputs
 
 ### Files Generated
 
@@ -227,7 +227,7 @@ PostgreSQL database contains:
 - `expenditure`: Per capita expenditure (time series)
 - `market_analysis`: Quadrant classifications with scores
 
-## 🔧 Configuration
+## Configuration
 
 Edit `src/models/config.yml` to customize:
 
@@ -249,7 +249,7 @@ outputs:
   top_n_regions: 10                # Regions to analyze
 ```
 
-## 🛠️ Development
+## Development
 
 ### Running Tests
 
@@ -286,20 +286,6 @@ python -m src.database.clear_table
 # Re-setup database
 python -m src.database.setup_db
 ```
-
-## 📚 Documentation
-
-- **Project Charter**: See `business.pdf` for detailed project overview
-- **Folder Structure**: See `references/folder_structure.txt`
-- **Code Documentation**: Docstrings in all Python modules
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit changes (`git commit -m 'Add amazing feature'`)
-4. Push to branch (`git push origin feature/amazing-feature`)
-5. Open Pull Request
 
 ## 📝 License
 
