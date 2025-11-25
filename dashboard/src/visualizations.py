@@ -1,395 +1,327 @@
 """
-Visualization Module
-Professional Plotly visualizations for dashboard
+Visualization Module - Professional Charts with Dark Mode
+Custom Plotly visualizations with theme support
+
+Author: Data Science Team
 """
 
-import plotly.express as px
 import plotly.graph_objects as go
-from plotly.subplots import make_subplots
+import plotly.express as px
 import pandas as pd
 import numpy as np
 
 
 class Visualizer:
-    """Create professional visualizations"""
+    """Professional visualization components with dark mode support"""
     
-    def __init__(self):
-        """Initialize visualizer with custom theme"""
+    def __init__(self, dark_mode=False):
+        """
+        Initialize with custom color scheme and styling
+        
+        Args:
+            dark_mode (bool): Enable dark mode styling
+        """
+        self.dark_mode = dark_mode
+        
+        # Professional color palette
         self.colors = {
-            'Stars': '#FFD700',
-            'Cash Cows': '#90EE90',
-            'Developing': '#87CEEB',
-            'Saturated': '#FFB6C1',
-            'forecast': '#FF6B6B',
-            'historical': '#1f77b4',
-            'ci': 'rgba(255, 107, 107, 0.2)'
+            'Stars': '#f59e0b',
+            'Cash Cows': '#10b981',
+            'Developing': '#3b82f6',
+            'Saturated': '#64748b',
+            'forecast': '#dc2626',
+            'historical': '#0f172a' if not dark_mode else '#e2e8f0',
+            'ci': 'rgba(220, 38, 38, 0.15)',
+            'primary': '#667eea',
+            'secondary': '#764ba2'
         }
         
-        self.template = 'plotly_white'
+        # Theme-specific colors
+        if dark_mode:
+            self.bg_color = '#0f172a'
+            self.plot_bg = '#1e293b'
+            self.text_color = '#e2e8f0'
+            self.text_secondary = '#94a3b8'
+            self.grid_color = '#334155'
+            self.template = 'plotly_dark'
+        else:
+            self.bg_color = 'white'
+            self.plot_bg = '#fafafa'
+            self.text_color = '#374151'
+            self.text_secondary = '#6b7280'
+            self.grid_color = '#e5e7eb'
+            self.template = 'plotly_white'
+        
+        # Professional chart layout
+        self.layout_template = {
+            'font': {
+                'family': 'Inter, sans-serif',
+                'size': 12,
+                'color': self.text_color
+            },
+            'paper_bgcolor': self.bg_color,
+            'plot_bgcolor': self.plot_bg,
+            'margin': {'l': 60, 'r': 40, 't': 80, 'b': 60},
+            'hovermode': 'closest',
+            'hoverlabel': {
+                'bgcolor': self.bg_color,
+                'bordercolor': self.grid_color,
+                'font': {'family': 'Inter, sans-serif', 'size': 13, 'color': self.text_color}
+            },
+            'xaxis': {
+                'gridcolor': self.grid_color,
+                'linecolor': self.grid_color,
+                'zerolinecolor': self.grid_color,
+                'title': {'font': {'size': 13, 'color': self.text_secondary}},
+                'tickfont': {'size': 11, 'color': self.text_secondary}
+            },
+            'yaxis': {
+                'gridcolor': self.grid_color,
+                'linecolor': self.grid_color,
+                'zerolinecolor': self.grid_color,
+                'title': {'font': {'size': 13, 'color': self.text_secondary}},
+                'tickfont': {'size': 11, 'color': self.text_secondary}
+            }
+        }
     
-    def create_segment_pie(self, segmentation_df):
+    def create_segment_pie(self, df):
         """
-        Create pie chart for segment distribution
+        Create market segment distribution pie chart
         
         Args:
-            segmentation_df: DataFrame with segment column
+            df: DataFrame with 'segment' column
             
         Returns:
-            Plotly figure
+            plotly.graph_objects.Figure
         """
-        segment_counts = segmentation_df['segment'].value_counts()
-        
-        fig = go.Figure(data=[go.Pie(
-            labels=segment_counts.index,
-            values=segment_counts.values,
-            hole=0.4,
-            marker=dict(colors=[self.colors.get(s, '#cccccc') for s in segment_counts.index]),
-            textinfo='label+percent',
-            textfont_size=14,
-            hovertemplate='<b>%{label}</b><br>Regions: %{value}<br>Percentage: %{percent}<extra></extra>'
-        )])
-        
-        fig.update_layout(
-            template=self.template,
-            showlegend=True,
-            height=400,
-            margin=dict(l=20, r=20, t=40, b=20),
-            annotations=[dict(
-                text=f'Total<br>{segment_counts.sum()}',
-                x=0.5, y=0.5,
-                font_size=16,
-                showarrow=False
-            )]
-        )
-        
-        return fig
-    
-    def create_quadrant_plot(self, segmentation_df, highlight_regions=None):
-        """
-        Create interactive quadrant plot
-        
-        Args:
-            segmentation_df: DataFrame with tfr, expenditure, segment
-            highlight_regions: List of regions to highlight
+        try:
+            segment_counts = df['segment'].value_counts()
             
-        Returns:
-            Plotly figure
-        """
-        # Calculate thresholds
-        tfr_threshold = segmentation_df['tfr'].median()
-        exp_threshold = segmentation_df['expenditure'].median()
-        
-        # Create base plot
-        fig = px.scatter(
-            segmentation_df,
-            x='tfr',
-            y='expenditure',
-            color='segment',
-            hover_name='region_name',
-            hover_data={'tfr': ':.2f', 'expenditure': ':,.0f', 'segment': True},
-            color_discrete_map=self.colors,
-            template=self.template,
-            height=600
-        )
-        
-        # Add threshold lines
-        fig.add_hline(
-            y=exp_threshold,
-            line_dash="dash",
-            line_color="red",
-            line_width=2,
-            annotation_text=f"Expenditure Threshold: Rp {exp_threshold:,.0f}k",
-            annotation_position="top right"
-        )
-        
-        fig.add_vline(
-            x=tfr_threshold,
-            line_dash="dash",
-            line_color="blue",
-            line_width=2,
-            annotation_text=f"TFR Threshold: {tfr_threshold:.2f}",
-            annotation_position="top right"
-        )
-        
-        # Add quadrant labels
-        x_range = segmentation_df['tfr'].max() - segmentation_df['tfr'].min()
-        y_range = segmentation_df['expenditure'].max() - segmentation_df['expenditure'].min()
-        
-        quadrant_annotations = [
-            dict(x=tfr_threshold + x_range * 0.15, y=exp_threshold + y_range * 0.4,
-                 text="⭐ Stars", showarrow=False, font=dict(size=16, color='#FFD700')),
-            dict(x=tfr_threshold - x_range * 0.15, y=exp_threshold + y_range * 0.4,
-                 text="🐮 Cash Cows", showarrow=False, font=dict(size=16, color='#90EE90')),
-            dict(x=tfr_threshold + x_range * 0.15, y=exp_threshold - y_range * 0.4,
-                 text="🌱 Developing", showarrow=False, font=dict(size=16, color='#87CEEB')),
-            dict(x=tfr_threshold - x_range * 0.15, y=exp_threshold - y_range * 0.4,
-                 text="⚠️ Saturated", showarrow=False, font=dict(size=16, color='#FFB6C1'))
-        ]
-        
-        # Highlight specific regions if provided
-        if highlight_regions:
-            highlight_df = segmentation_df[segmentation_df['region_name'].isin(highlight_regions)]
+            # Sort in strategic order
+            segment_order = ['Stars', 'Cash Cows', 'Developing', 'Saturated']
+            segment_counts = segment_counts.reindex(
+                [s for s in segment_order if s in segment_counts.index]
+            )
             
-            fig.add_trace(go.Scatter(
-                x=highlight_df['tfr'],
-                y=highlight_df['expenditure'],
-                mode='markers',
+            colors = [self.colors[seg] for seg in segment_counts.index]
+            
+            fig = go.Figure(data=[go.Pie(
+                labels=segment_counts.index,
+                values=segment_counts.values,
                 marker=dict(
-                    size=15,
-                    color='rgba(255, 0, 0, 0)',
-                    line=dict(color='red', width=3)
+                    colors=colors,
+                    line=dict(color=self.bg_color, width=3)
                 ),
-                name='Selected',
-                hoverinfo='skip',
-                showlegend=True
-            ))
+                textinfo='label+percent',
+                textfont=dict(size=13, color='white'),
+                hovertemplate='<b>%{label}</b><br>Regions: %{value}<br>Share: %{percent}<extra></extra>',
+                hole=0.4
+            )])
+            
+            # Center annotation
+            fig.add_annotation(
+                text=f"<b>{len(df)}</b><br><span style='font-size:11px'>regions</span>",
+                x=0.5, y=0.5,
+                font=dict(size=20, family='JetBrains Mono', color=self.text_color),
+                showarrow=False
+            )
+            
+            fig.update_layout(
+                showlegend=True,
+                legend=dict(
+                    orientation='h',
+                    yanchor='bottom',
+                    y=-0.15,
+                    xanchor='center',
+                    x=0.5
+                ),
+                height=450,
+                **self.layout_template
+            )
+            
+            return fig
         
-        fig.update_layout(
-            annotations=quadrant_annotations,
-            xaxis_title="Total Fertility Rate (TFR)",
-            yaxis_title="Per Capita Expenditure (Rp 000)",
-            hovermode='closest'
-        )
-        
-        return fig
+        except Exception as e:
+            print(f"Error in create_segment_pie: {e}")
+            return go.Figure().add_annotation(text=f"Error: {e}", showarrow=False)
     
-    def create_forecast_chart(self, national_forecast_df):
+    def create_quadrant_plot(self, df):
         """
-        Create national forecast chart with confidence interval
+        Create scatter plot with quadrant divisions
         
         Args:
-            national_forecast_df: DataFrame with year, expenditure, type, ci columns
+            df: DataFrame with 'tfr', 'expenditure', 'segment', 'region'
             
         Returns:
-            Plotly figure
+            plotly.graph_objects.Figure
         """
-        historical = national_forecast_df[national_forecast_df['type'] == 'historical']
-        forecast = national_forecast_df[national_forecast_df['type'] == 'forecast']
+        try:
+            fig = go.Figure()
+            
+            # Calculate medians
+            tfr_median = df['tfr'].median()
+            exp_median = df['expenditure'].median()
+            
+            # Plot each segment
+            for segment in df['segment'].unique():
+                segment_data = df[df['segment'] == segment]
+                
+                fig.add_trace(go.Scatter(
+                    x=segment_data['tfr'],
+                    y=segment_data['expenditure'],
+                    mode='markers',
+                    name=segment,
+                    marker=dict(
+                        size=10,
+                        color=self.colors[segment],
+                        opacity=0.7,
+                        line=dict(width=1, color=self.bg_color)
+                    ),
+                    text=segment_data['region'],
+                    hovertemplate='<b>%{text}</b><br>TFR: %{x:.2f}<br>Expenditure: Rp %{y:,.0f}k<extra></extra>'
+                ))
+            
+            # Quadrant lines
+            fig.add_hline(y=exp_median, line_dash="dash", line_color=self.text_secondary, line_width=2, opacity=0.6)
+            fig.add_vline(x=tfr_median, line_dash="dash", line_color=self.text_secondary, line_width=2, opacity=0.6)
+            
+            # Quadrant labels
+            annotations = [
+                dict(x=tfr_median * 1.3, y=exp_median * 1.15, text="Stars", showarrow=False,
+                     font=dict(size=14, color=self.colors['Stars']), opacity=0.3),
+                dict(x=tfr_median * 0.7, y=exp_median * 1.15, text="Cash Cows", showarrow=False,
+                     font=dict(size=14, color=self.colors['Cash Cows']), opacity=0.3),
+                dict(x=tfr_median * 1.3, y=exp_median * 0.85, text="Developing", showarrow=False,
+                     font=dict(size=14, color=self.colors['Developing']), opacity=0.3),
+                dict(x=tfr_median * 0.7, y=exp_median * 0.85, text="Saturated", showarrow=False,
+                     font=dict(size=14, color=self.colors['Saturated']), opacity=0.3)
+            ]
+            
+            fig.update_layout(
+                xaxis_title="Total Fertility Rate",
+                yaxis_title="Per Capita Expenditure (Rp 000s)",
+                annotations=annotations,
+                legend=dict(orientation='h', yanchor='bottom', y=-0.2, xanchor='center', x=0.5),
+                height=600,
+                **self.layout_template
+            )
+            
+            return fig
         
-        fig = go.Figure()
+        except Exception as e:
+            print(f"Error in create_quadrant_plot: {e}")
+            return go.Figure().add_annotation(text=f"Error: {e}", showarrow=False)
+    
+    def create_forecast_chart(self, df):
+        """
+        Create time series forecast chart
         
-        # Historical data
-        fig.add_trace(go.Scatter(
-            x=historical['year'],
-            y=historical['expenditure'],
-            mode='lines+markers',
-            name='Historical',
-            line=dict(color=self.colors['historical'], width=3),
-            marker=dict(size=8),
-            hovertemplate='<b>%{x}</b><br>Expenditure: Rp %{y:,.0f}k<extra></extra>'
-        ))
-        
-        # Forecast data
-        fig.add_trace(go.Scatter(
-            x=forecast['year'],
-            y=forecast['expenditure'],
-            mode='lines+markers',
-            name='Forecast',
-            line=dict(color=self.colors['forecast'], width=3, dash='dash'),
-            marker=dict(size=8),
-            hovertemplate='<b>%{x}</b><br>Forecast: Rp %{y:,.0f}k<extra></extra>'
-        ))
-        
-        # Confidence interval
-        if 'lower_ci' in forecast.columns and 'upper_ci' in forecast.columns:
+        Args:
+            df: DataFrame with 'year', 'expenditure', 'type', 'lower_ci', 'upper_ci'
+            
+        Returns:
+            plotly.graph_objects.Figure
+        """
+        try:
+            fig = go.Figure()
+            
+            # Historical data
+            hist_data = df[df['type'] == 'historical']
+            
             fig.add_trace(go.Scatter(
-                x=forecast['year'].tolist() + forecast['year'].tolist()[::-1],
-                y=forecast['upper_ci'].tolist() + forecast['lower_ci'].tolist()[::-1],
-                fill='toself',
-                fillcolor=self.colors['ci'],
-                line=dict(color='rgba(255,255,255,0)'),
-                name='95% Confidence Interval',
-                hoverinfo='skip',
-                showlegend=True
+                x=hist_data['year'],
+                y=hist_data['expenditure'],
+                mode='lines+markers',
+                name='Historical',
+                line=dict(color=self.colors['historical'], width=3),
+                marker=dict(size=6),
+                hovertemplate='<b>Year: %{x}</b><br>Expenditure: Rp %{y:,.0f}k<extra></extra>'
             ))
-        
-        # Add vertical line at forecast start
-        last_hist_year = historical['year'].max()
-        fig.add_vline(
-            x=last_hist_year,
-            line_dash="dot",
-            line_color="gray",
-            line_width=1,
-            annotation_text="Forecast Start",
-            annotation_position="top"
-        )
-        
-        fig.update_layout(
-            template=self.template,
-            xaxis_title="Year",
-            yaxis_title="Per Capita Expenditure (Rp 000)",
-            hovermode='x unified',
-            height=500,
-            legend=dict(
-                orientation="h",
-                yanchor="bottom",
-                y=1.02,
-                xanchor="right",
-                x=1
-            )
-        )
-        
-        return fig
-    
-    def create_regional_forecast_chart(self, historical_df, forecast_df, regions):
-        """
-        Create multi-region forecast chart
-        
-        Args:
-            historical_df: Historical expenditure data
-            forecast_df: Forecast data
-            regions: List of regions to plot
             
-        Returns:
-            Plotly figure
-        """
-        fig = go.Figure()
-        
-        # Color palette
-        colors = px.colors.qualitative.Set2
-        
-        for idx, region in enumerate(regions):
-            color = colors[idx % len(colors)]
+            # Forecast data
+            forecast_data = df[df['type'] == 'forecast']
             
-            # Historical
-            hist_data = historical_df[historical_df['region_name'] == region]
-            if len(hist_data) > 0:
+            if not forecast_data.empty:
                 fig.add_trace(go.Scatter(
-                    x=hist_data['year'],
-                    y=hist_data['expenditure'],
+                    x=forecast_data['year'],
+                    y=forecast_data['expenditure'],
                     mode='lines+markers',
-                    name=f'{region} (Historical)',
-                    line=dict(color=color, width=2),
+                    name='Forecast',
+                    line=dict(color=self.colors['forecast'], width=3, dash='dash'),
                     marker=dict(size=6),
-                    legendgroup=region,
-                    hovertemplate=f'<b>{region}</b><br>%{{x}}: Rp %{{y:,.0f}}k<extra></extra>'
+                    hovertemplate='<b>Year: %{x}</b><br>Forecast: Rp %{y:,.0f}k<extra></extra>'
                 ))
+                
+                # Confidence interval
+                if 'lower_ci' in forecast_data.columns and 'upper_ci' in forecast_data.columns:
+                    fig.add_trace(go.Scatter(
+                        x=list(forecast_data['year']) + list(forecast_data['year'])[::-1],
+                        y=list(forecast_data['upper_ci']) + list(forecast_data['lower_ci'])[::-1],
+                        fill='toself',
+                        fillcolor=self.colors['ci'],
+                        line=dict(color='rgba(255,255,255,0)'),
+                        name='95% Confidence',
+                        hoverinfo='skip',
+                        showlegend=True
+                    ))
             
-            # Forecast
-            fcst_data = forecast_df[forecast_df['region_name'] == region]
-            if len(fcst_data) > 0:
-                fig.add_trace(go.Scatter(
-                    x=fcst_data['year'],
-                    y=fcst_data['forecast'],
-                    mode='lines+markers',
-                    name=f'{region} (Forecast)',
-                    line=dict(color=color, width=2, dash='dash'),
-                    marker=dict(size=6, symbol='square'),
-                    legendgroup=region,
-                    hovertemplate=f'<b>{region}</b><br>%{{x}}: Rp %{{y:,.0f}}k<extra></extra>'
-                ))
-        
-        fig.update_layout(
-            template=self.template,
-            xaxis_title="Year",
-            yaxis_title="Per Capita Expenditure (Rp 000)",
-            hovermode='x unified',
-            height=600,
-            legend=dict(
-                orientation="v",
-                yanchor="top",
-                y=1,
-                xanchor="left",
-                x=1.02
+            fig.update_layout(
+                xaxis_title="Year",
+                yaxis_title="Per Capita Expenditure (Rp 000s)",
+                legend=dict(orientation='h', yanchor='bottom', y=-0.25, xanchor='center', x=0.5),
+                height=500,
+                **self.layout_template
             )
-        )
+            
+            # Current year line
+            fig.add_vline(x=2025, line_dash="dot", line_color=self.text_secondary, line_width=1, opacity=0.5)
+            fig.add_annotation(x=2025, y=df['expenditure'].max(), text="Current",
+                             showarrow=False, yshift=10, font=dict(size=10, color=self.text_secondary))
+            
+            return fig
         
-        return fig
+        except Exception as e:
+            print(f"Error in create_forecast_chart: {e}")
+            return go.Figure().add_annotation(text=f"Error: {e}", showarrow=False)
     
-    def create_segment_bars(self, segment_stats_df):
+    def create_regional_forecast_chart(self, df):
         """
-        Create bar charts for segment comparison
+        Create multi-region forecast comparison
         
         Args:
-            segment_stats_df: Segment statistics dataframe
+            df: DataFrame with 'region', 'year', 'expenditure'
             
         Returns:
-            Plotly figure
+            plotly.graph_objects.Figure
         """
-        fig = make_subplots(
-            rows=1, cols=2,
-            subplot_titles=("Average TFR by Segment", "Average Expenditure by Segment")
-        )
-        
-        # TFR bars
-        fig.add_trace(
-            go.Bar(
-                x=segment_stats_df['segment'],
-                y=segment_stats_df['tfr_mean'],
-                marker_color=[self.colors.get(s, '#cccccc') for s in segment_stats_df['segment']],
-                name='TFR',
-                text=segment_stats_df['tfr_mean'].round(2),
-                textposition='outside',
-                hovertemplate='<b>%{x}</b><br>Avg TFR: %{y:.2f}<extra></extra>'
-            ),
-            row=1, col=1
-        )
-        
-        # Expenditure bars
-        fig.add_trace(
-            go.Bar(
-                x=segment_stats_df['segment'],
-                y=segment_stats_df['expenditure_mean'],
-                marker_color=[self.colors.get(s, '#cccccc') for s in segment_stats_df['segment']],
-                name='Expenditure',
-                text=segment_stats_df['expenditure_mean'].round(0).astype(int),
-                textposition='outside',
-                hovertemplate='<b>%{x}</b><br>Avg Expenditure: Rp %{y:,.0f}k<extra></extra>'
-            ),
-            row=1, col=2
-        )
-        
-        fig.update_xaxes(title_text="Segment", row=1, col=1)
-        fig.update_xaxes(title_text="Segment", row=1, col=2)
-        fig.update_yaxes(title_text="TFR", row=1, col=1)
-        fig.update_yaxes(title_text="Expenditure (Rp 000)", row=1, col=2)
-        
-        fig.update_layout(
-            template=self.template,
-            showlegend=False,
-            height=400
-        )
-        
-        return fig
-    
-    def create_heatmap(self, data_df, x_col, y_col, value_col, title=""):
-        """
-        Create heatmap visualization
-        
-        Args:
-            data_df: Data dataframe
-            x_col: X-axis column
-            y_col: Y-axis column
-            value_col: Value to display
-            title: Chart title
+        try:
+            fig = go.Figure()
             
-        Returns:
-            Plotly figure
-        """
-        pivot = data_df.pivot_table(
-            index=y_col,
-            columns=x_col,
-            values=value_col,
-            aggfunc='mean'
-        )
+            region_colors = px.colors.qualitative.Set2
+            
+            for idx, region in enumerate(df['region'].unique()):
+                region_data = df[df['region'] == region]
+                
+                fig.add_trace(go.Scatter(
+                    x=region_data['year'],
+                    y=region_data['expenditure'],
+                    mode='lines+markers',
+                    name=region,
+                    line=dict(width=2.5),
+                    marker=dict(size=5),
+                    hovertemplate='<b>%{fullData.name}</b><br>Year: %{x}<br>Rp %{y:,.0f}k<extra></extra>'
+                ))
+            
+            fig.update_layout(
+                xaxis_title="Year",
+                yaxis_title="Per Capita Expenditure (Rp 000s)",
+                legend=dict(orientation='v', yanchor='top', y=1, xanchor='left', x=1.02),
+                height=500,
+                **self.layout_template
+            )
+            
+            return fig
         
-        fig = go.Figure(data=go.Heatmap(
-            z=pivot.values,
-            x=pivot.columns,
-            y=pivot.index,
-            colorscale='RdYlGn',
-            text=pivot.values.round(0),
-            texttemplate='%{text}',
-            textfont={"size": 10},
-            hovertemplate='<b>%{y}</b><br>%{x}: %{z:,.0f}<extra></extra>'
-        ))
-        
-        fig.update_layout(
-            template=self.template,
-            title=title,
-            xaxis_title=x_col.replace('_', ' ').title(),
-            yaxis_title=y_col.replace('_', ' ').title(),
-            height=500
-        )
-        
-        return fig
+        except Exception as e:
+            print(f"Error in create_regional_forecast_chart: {e}")
+            return go.Figure().add_annotation(text=f"Error: {e}", showarrow=False)
